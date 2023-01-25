@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoController {
     private final TodoService todoService;
 
+    // RestControllerAdvice, ExceptionHandler, ResponseEntity
+    // TODO : RESPONSE ENTITY, ERROR HANDLING
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public TodoResponse register(@RequestBody TodoRegisterRequest request) {
