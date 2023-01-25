@@ -36,7 +36,8 @@ public class TodoService {
     // 단건 조회
     @Transactional(readOnly = true)
     public TodoResponse get(Long id) {
-        Todo todo = todoRepository.findById(id).get();
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("자원이 없습니다."));
 
         return new TodoResponse(
                 todo.getId(),
@@ -58,12 +59,12 @@ public class TodoService {
 
     // 수정
     @Transactional
-    public TodoResponse update(Long id, TodoUpdateRequest request){
-        Todo todo = todoRepository.findById(id).get();
+    public TodoResponse update(Long id, TodoUpdateRequest request) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("자원이 없습니다."));
 
         // 더티체킹 - 영속성 컨텍스트
-        todo.setTitle(request.getTitle());
-        todo.setContent(request.getContent());
+        todo.update(request.getTitle(), request.getContent());
 
         return new TodoResponse(
                 todo.getId(),

@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "todo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Todo extends BaseEntity {
@@ -31,6 +30,11 @@ public class Todo extends BaseEntity {
     private String content;
 
     public Todo(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void update(String title, String content) {
         this.title = title;
         this.content = content;
     }
