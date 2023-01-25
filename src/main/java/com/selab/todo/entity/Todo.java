@@ -1,5 +1,6 @@
 package com.selab.todo.entity;
 
+import com.selab.todo.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 @Table(name = "todo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Todo {
+public class Todo extends BaseEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
