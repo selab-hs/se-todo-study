@@ -40,6 +40,7 @@ public class TodoController {
         return todoService.get(id);
     }
 
+    // TODO : sorting -> 생성된 날짜의 내림차순 정렬
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping
     public Page<TodoResponse> getAll(
@@ -57,6 +58,7 @@ public class TodoController {
         return todoService.update(id, request);
     }
 
+    // TODO : hard delete, soft delete
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(
