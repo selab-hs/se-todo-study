@@ -6,11 +6,13 @@ import com.selab.todo.dto.response.TodoResponse;
 import com.selab.todo.entity.Todo;
 import com.selab.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TodoService {
@@ -25,6 +27,8 @@ public class TodoService {
         );
 
         Todo savedTodo = todoRepository.save(todo);
+
+        log.info("todo 등록했습니다. {}", todo.getId());
 
         return new TodoResponse(
                 savedTodo.getId(),
@@ -66,6 +70,8 @@ public class TodoService {
         // 더티체킹 - 영속성 컨텍스트
         todo.update(request.getTitle(), request.getContent());
 
+        log.info("todo 수정했습니다. {}", todo.getId());
+
         return new TodoResponse(
                 todo.getId(),
                 todo.getTitle(),
@@ -76,6 +82,9 @@ public class TodoService {
     // 삭제
     @Transactional
     public void delete(Long id) {
-        todoRepository.deleteById(id);
+        if (todoRepository.existsById(id)) {
+            todoRepository.deleteById(id);
+            log.info("todo 삭제했습니다.. {}", id);
+        }
     }
 }
