@@ -5,6 +5,8 @@ import com.selab.todo.common.dto.ResponseDto;
 import com.selab.todo.dto.request.TodoRegisterRequest;
 import com.selab.todo.dto.request.TodoUpdateRequest;
 import com.selab.todo.service.TodoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,24 +22,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = {"TODO API"})
 @RestController
 @RequestMapping(value = "/api/v1/todos", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class TodoController {
     private final TodoService todoService;
 
+    @ApiOperation(value = "TODO 등록하기")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@RequestBody TodoRegisterRequest request) {
         var response = todoService.register(request);
         return ResponseDto.created(response);
     }
 
+    @ApiOperation(value = "TODO 단건 조회하기")
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Long id) {
         var response = todoService.get(id);
         return ResponseDto.ok(response);
     }
 
+    @ApiOperation(value = "TODO 전체 조회하기")
     @GetMapping
     public ResponseEntity<?> getAll(
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
@@ -46,6 +52,7 @@ public class TodoController {
         return PageDto.ok(response);
     }
 
+    @ApiOperation(value = "TODO 수정하기")
     @PutMapping("/{id}") // @PatchMapping
     public ResponseEntity<?> update(
             @PathVariable Long id,
@@ -55,6 +62,7 @@ public class TodoController {
         return ResponseDto.ok(response);
     }
 
+    @ApiOperation(value = "TODO 삭제하기")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long id
