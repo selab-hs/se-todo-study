@@ -30,11 +30,7 @@ public class TodoService {
 
         log.info("todo 등록했습니다. {}", todo.getId());
 
-        return new TodoResponse(
-                savedTodo.getId(),
-                savedTodo.getTitle(),
-                savedTodo.getContent()
-        );
+        return TodoResponse.from(savedTodo);
     }
 
     // 단건 조회
@@ -43,22 +39,14 @@ public class TodoService {
         Todo todo = todoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("자원이 없습니다."));
 
-        return new TodoResponse(
-                todo.getId(),
-                todo.getTitle(),
-                todo.getContent()
-        );
+        return TodoResponse.from(todo);
     }
 
     // 페이징 조회
     @Transactional(readOnly = true)
     public Page<TodoResponse> getAll(Pageable pageable) {
         return todoRepository.findAll(pageable)
-                .map(todo -> new TodoResponse(
-                        todo.getId(),
-                        todo.getTitle(),
-                        todo.getContent()
-                ));
+                .map(TodoResponse::from);
     }
 
     // 수정
@@ -72,11 +60,7 @@ public class TodoService {
 
         log.info("todo 수정했습니다. {}", todo.getId());
 
-        return new TodoResponse(
-                todo.getId(),
-                todo.getTitle(),
-                todo.getContent()
-        );
+        return TodoResponse.from(todo);
     }
 
     // 삭제
