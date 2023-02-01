@@ -4,6 +4,7 @@ import com.selab.todo.dto.request.TodoRegisterRequest;
 import com.selab.todo.dto.request.TodoUpdateRequest;
 import com.selab.todo.dto.response.TodoResponse;
 import com.selab.todo.entity.Todo;
+import com.selab.todo.exception.TodoException;
 import com.selab.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class TodoService {
     @Transactional(readOnly = true)
     public TodoResponse get(Long id) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("자원이 없습니다."));
+                .orElseThrow(TodoException::new);
 
         return TodoResponse.from(todo);
     }
@@ -53,7 +54,7 @@ public class TodoService {
     @Transactional
     public TodoResponse update(Long id, TodoUpdateRequest request) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("자원이 없습니다."));
+                .orElseThrow(TodoException::new);
 
         // 더티체킹 - 영속성 컨텍스트
         todo.update(request.getTitle(), request.getContent());
