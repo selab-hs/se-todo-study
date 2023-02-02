@@ -54,8 +54,19 @@
 ### 3.i. 기능적 요구 사항
 ### 3.i.a 기본적인 CRUD
 ### 3.i.a.a 등록
+* request : id, 등록 날짜, 제목, 내용
 ### 3.i.a.b 조회
+#### 단건 조회
+* request : id
+#### 범위 조회
+* request : Month
+* response : page
+#### 전체 조회
+* request : none
+* response : page
 ### 3.i.a.c 수정
+* request : id
 ### 3.i.a.d 삭제
+* request : none
 
 
