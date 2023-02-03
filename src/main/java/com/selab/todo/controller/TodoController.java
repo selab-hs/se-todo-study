@@ -43,6 +43,16 @@ public class TodoController {
         return ResponseDto.ok(response);
     }
 
+    @ApiOperation(value = "TODO 범위 조회")
+    @GetMapping("/month/{month}")
+    public ResponseEntity<?> getRange(
+            @PathVariable int month,
+            @PageableDefault Pageable pageable
+    ) {
+        var response = todoService.getRange(pageable,month);
+        return PageDto.ok(response);
+    }
+
     @ApiOperation(value = "TODO 전체 조회하기")
     @GetMapping
     public ResponseEntity<?> getAll(

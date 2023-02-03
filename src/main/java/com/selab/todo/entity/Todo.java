@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.time.Month;
 
 @Entity
 @Getter
@@ -29,6 +32,11 @@ public class Todo extends BaseEntity {
     @Column(name = "content")
     private String content;
 
+    @Column(name="createdAt")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+
     public Todo(String title, String content) {
         this.title = title;
         this.content = content;
@@ -37,5 +45,9 @@ public class Todo extends BaseEntity {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public int getCreatedMonth(){
+        return createdAt.getMonthValue();
     }
 }
