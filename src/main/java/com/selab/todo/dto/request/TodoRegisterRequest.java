@@ -6,4 +6,5 @@ import lombok.Data;
 public class TodoRegisterRequest {
     private final String title;
     private final String content;
+    private final String feel;
 }

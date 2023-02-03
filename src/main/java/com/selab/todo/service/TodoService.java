@@ -29,10 +29,11 @@ public class TodoService {
 
     // 삽입
     @Transactional
-    public TodoResponse register(TodoRegisterRequest request) {
+    public TodoResponse register(TodoRegisterRequest request, String feel) {
         Todo todo = new Todo(
                 request.getTitle(),
-                request.getContent()
+                request.getContent(),
+                feel
         );
 
         Todo savedTodo = todoRepository.save(todo);

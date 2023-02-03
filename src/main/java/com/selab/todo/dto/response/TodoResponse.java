@@ -11,13 +11,15 @@ public class TodoResponse {
     private final String title;
     private final String content;
     private final LocalDateTime localDateTime;
+    private final String feel;
 
     public static TodoResponse from(Todo todo) {
         return new TodoResponse(
                 todo.getId(),
                 todo.getTitle(),
                 todo.getContent(),
-                todo.getCreatedAt()
+                todo.getCreatedAt(),
+                todo.getFeel()
         );
     }
 }

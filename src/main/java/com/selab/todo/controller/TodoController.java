@@ -30,9 +30,9 @@ public class TodoController {
     private final TodoService todoService;
 
     @ApiOperation(value = "TODO 등록하기")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> register(@RequestBody TodoRegisterRequest request) {
-        var response = todoService.register(request);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/{feel}")
+    public ResponseEntity<?> register(@RequestBody TodoRegisterRequest request, @PathVariable String feel) {
+        var response = todoService.register(request, feel);
         return ResponseDto.created(response);
     }
 

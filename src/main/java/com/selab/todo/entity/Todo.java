@@ -36,10 +36,14 @@ public class Todo extends BaseEntity {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @Column(name="feel")
+    private String feel;
 
-    public Todo(String title, String content) {
+
+    public Todo(String title, String content, String feel) {
         this.title = title;
         this.content = content;
+        this.feel = feel;
     }
 
     public void update(String title, String content) {
