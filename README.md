@@ -1,5 +1,5 @@
 # SELAB-TODO
-> basic todo with spring-mvc
+> basic diary with spring-mvc
 
 # 요구명세서
 > 일기 작성 서비스
