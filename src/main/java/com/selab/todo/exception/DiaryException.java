@@ -1,7 +1,7 @@
 package com.selab.todo.exception;
 
-public class TodoException extends BusinessException {
-    public TodoException() {
+public class DiaryException extends BusinessException {
+    public DiaryException() {
         super(ErrorMessage.TODO_NOT_FOUND_ERROR);
     }
 }
