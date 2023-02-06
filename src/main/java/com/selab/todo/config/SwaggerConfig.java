@@ -31,8 +31,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Selab Todo api info")
-                .description("SE TODO API")
+                .title("Selab Diary api info")
+                .description("SE Diary API")
                 .version("1.0.0")
                 .build();
     }
