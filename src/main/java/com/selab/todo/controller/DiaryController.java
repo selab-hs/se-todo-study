@@ -2,9 +2,9 @@ package com.selab.todo.controller;
 
 import com.selab.todo.common.dto.PageDto;
 import com.selab.todo.common.dto.ResponseDto;
-import com.selab.todo.dto.request.TodoRegisterRequest;
-import com.selab.todo.dto.request.TodoUpdateRequest;
-import com.selab.todo.service.TodoService;
+import com.selab.todo.dto.request.DiaryRegisterRequest;
+import com.selab.todo.dto.request.DiaryUpdateRequest;
+import com.selab.todo.service.DiaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,62 +22,71 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = {"TODO API"})
+@Api(tags = {"Diary API"})
 @RestController
-@RequestMapping(value = "/api/v1/todos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/Diarys", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class TodoController {
-    private final TodoService todoService;
+public class DiaryController {
+    private final DiaryService diaryService;
 
-    @ApiOperation(value = "TODO 등록하기")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/")
-    public ResponseEntity<?> register(@RequestBody TodoRegisterRequest request) {
-        var response = todoService.register(request);
+    @ApiOperation(value = "Diary 등록하기")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/register")
+    public ResponseEntity<?> register(@RequestBody DiaryRegisterRequest request) {
+        var response = diaryService.register(request);
         return ResponseDto.created(response);
     }
 
-    @ApiOperation(value = "TODO 단건 조회하기")
-    @GetMapping("/{id}")
+    @ApiOperation(value = "Diary 단건 조회하기")
+    @GetMapping("/search/single/{id}")
     public ResponseEntity<?> get(@PathVariable Long id) {
-        var response = todoService.get(id);
+        var response = diaryService.get(id);
         return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "TODO 범위 조회")
-    @GetMapping("/month/{month}")
+    @ApiOperation(value = "Diary 범위 조회")
+    @GetMapping("/search/month/{month}")
     public ResponseEntity<?> getRange(
             @PathVariable int month,
             @PageableDefault Pageable pageable
     ) {
-        var response = todoService.getRange(pageable,month);
+        var response = diaryService.getRange(pageable,month);
         return PageDto.ok(response);
     }
 
-    @ApiOperation(value = "TODO 전체 조회하기")
-    @GetMapping
+    @ApiOperation(value = "Diary 전체 조회하기")
+    @GetMapping("/search/all")
     public ResponseEntity<?> getAll(
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var response = todoService.getAll(pageable);
+        var response = diaryService.getAll(pageable);
         return PageDto.ok(response);
     }
 
-    @ApiOperation(value = "TODO 수정하기")
-    @PutMapping("/{id}") // @PatchMapping
+    @ApiOperation(value = "Diary 수정하기")
+    @PutMapping("/update/{id}") // @PatchMapping
     public ResponseEntity<?> update(
             @PathVariable Long id,
-            @RequestBody TodoUpdateRequest request
+            @RequestBody DiaryUpdateRequest request
     ) {
-        var response = todoService.update(id, request);
+        var response = diaryService.update(id, request);
         return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "TODO 삭제하기")
-    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Diary 삭제하기")
+    @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long id
     ) {
-        todoService.delete(id);
+        diaryService.delete(id);
+        return ResponseDto.noContent();
+    }
+
+    @ApiOperation(value = "Diary 월별 삭제하기")
+    @DeleteMapping("/delete/month/{month}")
+    public ResponseEntity<Void> monthDelete(
+            @PathVariable int month
+    ){
+        diaryService.monthDelete(month);
         return ResponseDto.noContent();
     }
 }
