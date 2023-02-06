@@ -68,7 +68,7 @@ public class DiaryService {
     public Page<DiaryResponse> getRange(Pageable pageable, int month) {
         log.info("Todo 범위 조회");
         Page<DiaryResponse> allPage = diaryRepository.findAll(pageable).map(DiaryResponse::from);
-        List<DiaryResponse> middleProcess = allPage.stream().filter(a -> a.getLocalDateTime().getMonth().getValue() == month).collect(Collectors.toList());
+        List<DiaryResponse> middleProcess = allPage.stream().filter(a -> a.getMonth() == month).collect(Collectors.toList());
         PageRequest pageRequest = PageRequest.of(0, 10);
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), middleProcess.size());

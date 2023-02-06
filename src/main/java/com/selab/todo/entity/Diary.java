@@ -61,8 +61,4 @@ public class Diary extends BaseEntity {
         this.content = content;
         this.feel = feel;
     }
-
-    public int getCreatedMonth() {
-        return createdAt.getMonthValue();
-    }
 }
