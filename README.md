@@ -1,6 +1,8 @@
 # SELAB-TODO
 > basic diary with spring-mvc
 
+[테스트링크](http://localhost:8080/swagger-ui/index.html#/TODO%20API)
+
 # 요구명세서
 > 일기 작성 서비스
 
