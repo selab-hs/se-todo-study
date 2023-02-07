@@ -1,6 +1,7 @@
 package com.selab.todo.dto.response;
 
 import com.selab.todo.entity.Diary;
+import com.selab.todo.model.Feeling;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ public class DiaryResponse {
     private final String title;
     private final String content;
     private final LocalDateTime localDateTime;
-    private final String feel;
+    private final Feeling feel;
     private final int year;
     private final int month;
     private final int day;
