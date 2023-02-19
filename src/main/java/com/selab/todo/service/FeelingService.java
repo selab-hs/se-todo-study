@@ -28,14 +28,14 @@ public class FeelingService {
 
         diary.feelingUpdate(request.getFeel());
 
-        log.info("diary feeling 수정했습니다. {}", diary.getId());
+        log.info("Diary feeling 수정했습니다. {}", diary.getId());
 
         return FeelingResponse.from(diary);
     }
 
     @Transactional(readOnly = true)
     public Page<FeelingResponse> getAllFeeling(Pageable pageable){
-        log.info("feeling 전체 조회");
+        log.info("Diary feeling 전체 조회");
         return diaryRepository.findAll(pageable)
                 .map(FeelingResponse::from);
     }
