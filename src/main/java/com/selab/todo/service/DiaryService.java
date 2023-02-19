@@ -6,12 +6,9 @@ import com.selab.todo.dto.response.DiaryResponse;
 import com.selab.todo.entity.Diary;
 import com.selab.todo.exception.DiaryException;
 import com.selab.todo.repository.DiaryRepository;
-import com.selab.todo.repository.FeelingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -27,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryRepository diaryRepository;
+    private final FindService findService;
 
     // 삽입
     @Transactional
@@ -42,7 +39,7 @@ public class DiaryService {
 
         Diary savedDiary = diaryRepository.save(diary);
 
-        log.info("todo 등록했습니다. {}", diary.getId());
+        log.info("Diary 등록했습니다. {}", diary.getId());
 
         return DiaryResponse.from(savedDiary);
     }
@@ -52,14 +49,14 @@ public class DiaryService {
     public DiaryResponse get(Long id) {
         Diary diary = diaryRepository.findById(id)
                 .orElseThrow(DiaryException::new);
-        log.info("todo 조회했습니다, {}", diary.getId());
+        log.info("Diary 조회했습니다, {}", diary.getId());
         return DiaryResponse.from(diary);
     }
 
     // 페이징 조회
     @Transactional(readOnly = true)
     public Page<DiaryResponse> getAll(Pageable pageable) {
-        log.info("todo 전체 조회");
+        log.info("Diary 전체 조회");
         return diaryRepository.findAll(pageable)
                 .map(DiaryResponse::from);
     }
@@ -67,13 +64,10 @@ public class DiaryService {
     //범위 조회
     @Transactional(readOnly = true)
     public Page<DiaryResponse> getRange(Pageable pageable, int month) {
-        log.info("Todo 범위 조회");
+        log.info("Diary 범위 조회");
         Page<DiaryResponse> allPage = diaryRepository.findAll(pageable).map(DiaryResponse::from);
-        List<DiaryResponse> middleProcess = allPage.stream().filter(a -> a.getMonth() == month).collect(Collectors.toList());
-        PageRequest pageRequest = PageRequest.of(0, 10);
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), middleProcess.size());
-        return new PageImpl<>(middleProcess.subList(start, end), pageRequest, middleProcess.size());
+
+        return findService.getMonthRange(allPage, month);
     }
 
     // 수정
@@ -113,7 +107,7 @@ public class DiaryService {
         deleteId.forEach(id -> {
             if (diaryRepository.existsById(id)) {
                 diaryRepository.deleteById(id);
-                log.info("Month Todo 삭제했습니다. {}", id);
+                log.info("Month Diary 삭제했습니다. {}", id);
             }
         });
     }
