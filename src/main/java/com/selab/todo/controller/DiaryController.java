@@ -4,6 +4,7 @@ import com.selab.todo.common.dto.PageDto;
 import com.selab.todo.common.dto.ResponseDto;
 import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
 import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
+import com.selab.todo.dto.request.diary.MonthRequest;
 import com.selab.todo.dto.request.feel.FeelingUpdateRequest;
 import com.selab.todo.service.DiaryService;
 import com.selab.todo.service.FeelingService;
@@ -40,24 +41,24 @@ public class DiaryController {
     }
 
     @ApiOperation(value = "Diary 단건 조회하기")
-    @GetMapping("/search/single/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Long id) {
         var response = diaryService.get(id);
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "Diary 범위 조회")
-    @GetMapping("/search/month/{month}")
+    @GetMapping(value = "/search-range-month",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRange(
-            @PathVariable int month,
+            @RequestBody MonthRequest month,
             @PageableDefault Pageable pageable
     ) {
-        var response = diaryService.getRange(pageable, month);
+        var response = diaryService.getRange(pageable, month.getMonth());
         return PageDto.ok(response);
     }
 
     @ApiOperation(value = "Diary 전체 조회하기")
-    @GetMapping("/search/all")
+    @GetMapping("/search-all")
     public ResponseEntity<?> getAll(
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -66,7 +67,7 @@ public class DiaryController {
     }
 
     @ApiOperation(value = "Diary 수정하기")
-    @PutMapping("/update/{id}") // @PatchMapping
+    @PutMapping("/{id}") // @PatchMapping
     public ResponseEntity<?> update(
             @PathVariable Long id,
             @RequestBody DiaryUpdateRequest request
@@ -76,7 +77,7 @@ public class DiaryController {
     }
 
     @ApiOperation(value = "Diary 삭제하기")
-    @DeleteMapping("/delete/id/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long id
     ) {
@@ -85,11 +86,11 @@ public class DiaryController {
     }
 
     @ApiOperation(value = "Diary 월별 삭제하기")
-    @DeleteMapping("/delete/month/{month}")
+    @DeleteMapping("/delete-month")
     public ResponseEntity<Void> monthDelete(
-            @PathVariable int month
+            @RequestBody MonthRequest request
     ) {
-        diaryService.monthDelete(month);
+        diaryService.monthDelete(request.getMonth());
         return ResponseDto.noContent();
     }
 
