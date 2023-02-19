@@ -1,4 +1,4 @@
-package com.selab.todo.dto.request;
+package com.selab.todo.dto.request.diary;
 
 import lombok.Data;
 

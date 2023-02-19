@@ -2,9 +2,11 @@ package com.selab.todo.controller;
 
 import com.selab.todo.common.dto.PageDto;
 import com.selab.todo.common.dto.ResponseDto;
-import com.selab.todo.dto.request.DiaryRegisterRequest;
-import com.selab.todo.dto.request.DiaryUpdateRequest;
+import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
+import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
+import com.selab.todo.dto.request.feel.FeelingUpdateRequest;
 import com.selab.todo.service.DiaryService;
+import com.selab.todo.service.FeelingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DiaryController {
     private final DiaryService diaryService;
+    private final FeelingService feelingService;
 
     @ApiOperation(value = "Diary 등록하기")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/register")
@@ -49,7 +52,7 @@ public class DiaryController {
             @PathVariable int month,
             @PageableDefault Pageable pageable
     ) {
-        var response = diaryService.getRange(pageable,month);
+        var response = diaryService.getRange(pageable, month);
         return PageDto.ok(response);
     }
 
@@ -85,8 +88,22 @@ public class DiaryController {
     @DeleteMapping("/delete/month/{month}")
     public ResponseEntity<Void> monthDelete(
             @PathVariable int month
-    ){
+    ) {
         diaryService.monthDelete(month);
         return ResponseDto.noContent();
+    }
+
+    @ApiOperation(value = "Feeling 수정하기")
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/update/feeling")
+    public ResponseEntity<?> updateFeeling(@RequestBody FeelingUpdateRequest request) {
+        var response = feelingService.updateFeeling(request);
+        return ResponseDto.ok(response);
+    }
+
+    @ApiOperation(value = "Feeling 전체 조회하기")
+    @GetMapping("/serach/feeling/all")
+    public ResponseEntity<?> getAllFeeling(@PageableDefault Pageable pageable) {
+        var response = feelingService.getAllFeeling(pageable);
+        return PageDto.ok(response);
     }
 }

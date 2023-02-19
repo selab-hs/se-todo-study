@@ -1,7 +1,6 @@
 package com.selab.todo.entity;
 
 import com.selab.todo.common.BaseEntity;
-import com.selab.todo.model.Feeling;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "todo")
+@Table(name = "diary")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Diary extends BaseEntity {
     @Id
@@ -45,10 +44,10 @@ public class Diary extends BaseEntity {
     private int day;
 
     @Column(name = "feel")
-    private Feeling feel;
+    private String feel;
 
 
-    public Diary(String title, String content, Feeling feel, int year, int month, int day) {
+    public Diary(String title, String content, String feel, int year, int month, int day) {
         this.title = title;
         this.content = content;
         this.feel = feel;
@@ -57,9 +56,13 @@ public class Diary extends BaseEntity {
         this.day = day;
     }
 
-    public void update(String title, String content, Feeling feel) {
+    public void update(String title, String content, String feel) {
         this.title = title;
         this.content = content;
+        this.feel = feel;
+    }
+
+    public void feelingUpdate(String feel){
         this.feel = feel;
     }
 }

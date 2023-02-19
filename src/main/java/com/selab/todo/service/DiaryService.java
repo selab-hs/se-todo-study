@@ -1,12 +1,12 @@
 package com.selab.todo.service;
 
-import com.selab.todo.dto.request.DiaryRegisterRequest;
-import com.selab.todo.dto.request.DiaryUpdateRequest;
+import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
+import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
 import com.selab.todo.dto.response.DiaryResponse;
 import com.selab.todo.entity.Diary;
 import com.selab.todo.exception.DiaryException;
-import com.selab.todo.model.Feeling;
 import com.selab.todo.repository.DiaryRepository;
+import com.selab.todo.repository.FeelingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,7 @@ public class DiaryService {
         Diary diary = new Diary(
                 request.getTitle(),
                 request.getContent(),
-                Feeling.valueOf(request.getFeel()),
+                request.getFeel(),
                 request.getYear(),
                 request.getMonth(),
                 request.getDay()
@@ -83,7 +83,7 @@ public class DiaryService {
                 .orElseThrow(DiaryException::new);
 
         // 더티체킹 - 영속성 컨텍스트
-        diary.update(request.getTitle(), request.getContent(), Feeling.valueOf(request.getFeel()));
+        diary.update(request.getTitle(), request.getContent(), request.getFeel());
 
         log.info("todo 수정했습니다. {}", diary.getId());
 
