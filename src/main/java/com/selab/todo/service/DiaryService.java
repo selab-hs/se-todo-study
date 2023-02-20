@@ -97,7 +97,7 @@ public class DiaryService {
     //월별 삭제
     @Transactional
     public void monthDelete(int month) {
-        List<Diary> deleteId = diaryRepository.deleteDiariesByMonth(month);
+        diaryRepository.deleteDiariesByMonth(month);
     }
 
 }
