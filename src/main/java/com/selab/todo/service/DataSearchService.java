@@ -1,6 +1,6 @@
 package com.selab.todo.service;
 
-import com.selab.todo.dto.request.diary.SearchRequest;
+import com.selab.todo.dto.request.search.SearchRequest;
 import com.selab.todo.dto.response.DiaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

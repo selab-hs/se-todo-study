@@ -1,9 +1,9 @@
 package com.selab.todo.controller;
 
-import com.selab.todo.dto.request.diary.MonthSearchRequest;
-import com.selab.todo.dto.request.diary.SearchRequest;
-import com.selab.todo.dto.request.diary.YearSearchRequest;
-import com.selab.todo.dto.request.feel.FeelingSearchRequest;
+import com.selab.todo.dto.request.search.MonthSearchRequest;
+import com.selab.todo.dto.request.search.SearchRequest;
+import com.selab.todo.dto.request.search.YearSearchRequest;
+import com.selab.todo.dto.request.search.FeelingSearchRequest;
 import com.selab.todo.dto.response.DiaryResponse;
 import com.selab.todo.service.DiaryService;
 import com.selab.todo.service.DataSearchService;
