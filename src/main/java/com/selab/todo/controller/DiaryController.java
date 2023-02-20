@@ -47,16 +47,6 @@ public class DiaryController {
         return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "Diary 범위 조회")
-    @GetMapping(value = "/search-range-month",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getRange(
-            @RequestBody MonthSearchRequest month,
-            @PageableDefault Pageable pageable
-    ) {
-        var response = diaryService.getRange(pageable, month.getMonth());
-        return PageDto.ok(response);
-    }
-
     @ApiOperation(value = "Diary 전체 조회하기")
     @GetMapping("/search-all")
     public ResponseEntity<?> getAll(
