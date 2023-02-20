@@ -76,23 +76,21 @@ public class DiaryController {
     }
 
     @ApiOperation(value = "Diary 월별 삭제하기")
-    @DeleteMapping("/delete-month")
-    public ResponseEntity<Void> monthDelete(
-            @RequestBody MonthSearchRequest request
-    ) {
-        diaryService.monthDelete(request.getMonth());
+    @DeleteMapping("/month/{month}")
+    public ResponseEntity<Void> monthDelete(@PathVariable int month) {
+        diaryService.monthDelete(month);
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "Feeling 수정하기")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/update-feeling/{id}")
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/feeling/{id}")
     public ResponseEntity<?> updateFeeling(@PathVariable Long id, @RequestBody FeelingUpdateRequest request) {
         var response = feelingService.updateFeeling(id, request);
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "Feeling 전체 조회하기")
-    @GetMapping("/serach/feeling/all")
+    @GetMapping("/feeling-all")
     public ResponseEntity<?> getAllFeeling(@PageableDefault Pageable pageable) {
         var response = feelingService.getAllFeeling(pageable);
         return PageDto.ok(response);
