@@ -3,6 +3,7 @@ package com.selab.todo.dto.request.feel;
 import lombok.Data;
 
 @Data
-public class FeelingUpdateRequest {
+public class FeelingRegisterRequest {
+    private final Long id;
     private final String feel;
 }

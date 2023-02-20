@@ -15,4 +15,11 @@ public class FeelingResponse {
                 diary.getFeel()
         );
     }
+
+    public static FeelingResponse from(Feeling feeling){
+        return new FeelingResponse(
+                feeling.getId(),
+                feeling.getFeel()
+        );
+    }
 }
