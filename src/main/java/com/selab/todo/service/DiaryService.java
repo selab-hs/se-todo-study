@@ -71,15 +71,6 @@ public class DiaryService {
                 .map(DiaryResponse::from);
     }
 
-    //범위 조회
-    @Transactional(readOnly = true)
-    public Page<DiaryResponse> getRange(Pageable pageable, int month) {
-        log.info("Diary 범위 조회");
-        Page<DiaryResponse> allPage = diaryRepository.findAll(pageable).map(DiaryResponse::from);
-
-        return dataSearchService.getMonth(allPage, month);
-    }
-
     // 수정
     @Transactional
     public DiaryResponse update(Long id, DiaryUpdateRequest request) {
@@ -106,20 +97,7 @@ public class DiaryService {
     //월별 삭제
     @Transactional
     public void monthDelete(int month) {
-        List<Long> deleteId = new LinkedList<>();
-
-        diaryRepository.findAll().forEach(eachDiary -> {
-            if (eachDiary.getMonth() == month) {
-                deleteId.add(eachDiary.getId());
-            }
-        });
-
-        deleteId.forEach(id -> {
-            if (diaryRepository.existsById(id)) {
-                diaryRepository.deleteById(id);
-                log.info("Month Diary 삭제했습니다. {}", id);
-            }
-        });
+        List<Diary> deleteId = diaryRepository.deleteDiariesByMonth(month);
     }
 
 }
