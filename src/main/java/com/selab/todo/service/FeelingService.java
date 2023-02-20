@@ -1,10 +1,12 @@
 package com.selab.todo.service;
 
 import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
+import com.selab.todo.dto.request.feel.FeelingRegisterRequest;
 import com.selab.todo.dto.request.feel.FeelingUpdateRequest;
 import com.selab.todo.dto.response.DiaryResponse;
 import com.selab.todo.dto.response.FeelingResponse;
 import com.selab.todo.entity.Diary;
+import com.selab.todo.entity.Feeling;
 import com.selab.todo.exception.DiaryException;
 import com.selab.todo.repository.DiaryRepository;
 import com.selab.todo.repository.FeelingRepository;
@@ -20,17 +22,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FeelingService {
     private final DiaryRepository diaryRepository;
+    private final FeelingRepository feelingRepository;
 
     @Transactional
-    public FeelingResponse updateFeeling(FeelingUpdateRequest request){
-        Diary diary = diaryRepository.findById(request.getId())
-                .orElseThrow(DiaryException::new);
+    public FeelingResponse register(FeelingRegisterRequest request){
+        Feeling feeling = new Feeling(
+                request.getId(),
+                request.getFeel()
+        );
+        return FeelingResponse.from(feeling);
+    }
 
-        diary.feelingUpdate(request.getFeel());
+    @Transactional
+    public FeelingResponse updateFeeling(Long id, FeelingUpdateRequest request){
+        Feeling feeling = feelingRepository.findById(id).orElseThrow(DiaryException::new);
 
-        log.info("Diary feeling 수정했습니다. {}", diary.getId());
+        log.info("Diary feeling 수정했습니다. {}", feeling.getId());
 
-        return FeelingResponse.from(diary);
+        return FeelingResponse.from(feeling);
     }
 
     @Transactional(readOnly = true)

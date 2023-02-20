@@ -4,8 +4,10 @@ import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
 import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
 import com.selab.todo.dto.response.DiaryResponse;
 import com.selab.todo.entity.Diary;
+import com.selab.todo.entity.Feeling;
 import com.selab.todo.exception.DiaryException;
 import com.selab.todo.repository.DiaryRepository;
+import com.selab.todo.repository.FeelingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryRepository diaryRepository;
-    private final FindService findService;
+    private final FeelingRepository feelingRepository;
+    private final DataSearchService dataSearchService;
 
     // 삽입
     @Transactional
@@ -37,9 +40,16 @@ public class DiaryService {
                 request.getDay()
         );
 
+        Feeling feeling = new Feeling(
+                diary.getId(),
+                request.getFeel()
+        );
+
         Diary savedDiary = diaryRepository.save(diary);
+        feelingRepository.save(feeling);
 
         log.info("Diary 등록했습니다. {}", diary.getId());
+        log.info("Feeling 등록했습니다. {}", feeling.getFeel());
 
         return DiaryResponse.from(savedDiary);
     }
@@ -67,7 +77,7 @@ public class DiaryService {
         log.info("Diary 범위 조회");
         Page<DiaryResponse> allPage = diaryRepository.findAll(pageable).map(DiaryResponse::from);
 
-        return findService.getMonthRange(allPage, month);
+        return dataSearchService.getMonth(allPage, month);
     }
 
     // 수정
@@ -111,4 +121,5 @@ public class DiaryService {
             }
         });
     }
+
 }

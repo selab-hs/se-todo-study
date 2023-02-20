@@ -4,7 +4,7 @@ import com.selab.todo.common.dto.PageDto;
 import com.selab.todo.common.dto.ResponseDto;
 import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
 import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
-import com.selab.todo.dto.request.diary.MonthRequest;
+import com.selab.todo.dto.request.diary.MonthSearchRequest;
 import com.selab.todo.dto.request.feel.FeelingUpdateRequest;
 import com.selab.todo.service.DiaryService;
 import com.selab.todo.service.FeelingService;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"Diary API"})
 @RestController
-@RequestMapping(value = "/api/v1/Diarys", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/Diarys/default", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class DiaryController {
     private final DiaryService diaryService;
@@ -50,7 +50,7 @@ public class DiaryController {
     @ApiOperation(value = "Diary 범위 조회")
     @GetMapping(value = "/search-range-month",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRange(
-            @RequestBody MonthRequest month,
+            @RequestBody MonthSearchRequest month,
             @PageableDefault Pageable pageable
     ) {
         var response = diaryService.getRange(pageable, month.getMonth());
@@ -88,16 +88,16 @@ public class DiaryController {
     @ApiOperation(value = "Diary 월별 삭제하기")
     @DeleteMapping("/delete-month")
     public ResponseEntity<Void> monthDelete(
-            @RequestBody MonthRequest request
+            @RequestBody MonthSearchRequest request
     ) {
         diaryService.monthDelete(request.getMonth());
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "Feeling 수정하기")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/update/feeling")
-    public ResponseEntity<?> updateFeeling(@RequestBody FeelingUpdateRequest request) {
-        var response = feelingService.updateFeeling(request);
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/update-feeling/{id}")
+    public ResponseEntity<?> updateFeeling(@PathVariable Long id, @RequestBody FeelingUpdateRequest request) {
+        var response = feelingService.updateFeeling(id, request);
         return ResponseDto.ok(response);
     }
 
