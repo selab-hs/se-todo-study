@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.DayOfWeek;
+import java.time.Month;
+import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,9 +38,9 @@ public class DiaryService {
                 request.getTitle(),
                 request.getContent(),
                 request.getFeel(),
-                request.getYear(),
-                request.getMonth(),
-                request.getDay()
+                Year.of(request.getYear()),
+                Month.of(request.getMonth()),
+                DayOfWeek.of(request.getDay())
         );
 
         Feeling feeling = new Feeling(

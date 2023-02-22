@@ -12,7 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
 
 @Entity
 @Getter
@@ -35,19 +38,19 @@ public class Diary extends BaseEntity {
     private LocalDateTime createdAt;
 
     @Column(name = "year")
-    private int year;
+    private Year year;
 
     @Column(name = "month")
-    private int month;
+    private Month month;
 
     @Column(name = "day")
-    private int day;
+    private DayOfWeek day;
 
     @Column(name = "feel")
     private String feel;
 
 
-    public Diary(String title, String content, String feel, int year, int month, int day) {
+    public Diary(String title, String content, String feel, Year year, Month month, DayOfWeek day) {
         this.title = title;
         this.content = content;
         this.feel = feel;
