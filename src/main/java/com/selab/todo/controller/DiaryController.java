@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"Diary API"})
 @RestController
-@RequestMapping(value = "/api/v1/Diarys/default", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/diaries", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class DiaryController {
     private final DiaryService diaryService;
