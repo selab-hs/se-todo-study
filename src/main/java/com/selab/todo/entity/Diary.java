@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 
-@Entity
+@Entity(name = "Diary")
 @Getter
 @Table(name = "diary")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
