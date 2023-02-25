@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class DataSearchService {
     public Page<DiaryResponse> searchMonth(Page<DiaryResponse> allPage, int month) {
         List<DiaryResponse> middleProcess = allPage.stream()
-                .filter(a -> a.getMonth() == month)
+                .filter(a -> a.getMonth().getValue() == month)
                 .collect(Collectors.toList());
 
         log.info("Month 조회. {}", month);
@@ -27,7 +27,7 @@ public class DataSearchService {
 
     public Page<DiaryResponse> searchYear(Page<DiaryResponse> allPage, int year) {
         List<DiaryResponse> middleProcess = allPage.stream()
-                .filter(a -> a.getMonth() == year)
+                .filter(a -> a.getYear().getValue() == year)
                 .collect(Collectors.toList());
 
         log.info("Year 조회. {}", year);
@@ -36,8 +36,8 @@ public class DataSearchService {
 
     public Page<DiaryResponse> search(Page<DiaryResponse> allPage, SearchRequest request) {
         List<DiaryResponse> middleProcess = allPage.stream()
-                .filter(a -> a.getYear() == request.getYear())
-                .filter(a -> a.getMonth() == request.getMonth())
+                .filter(a -> a.getYear().getValue() == request.getYear())
+                .filter(a -> a.getMonth().getValue() == request.getMonth())
                 .filter(a -> a.getDay() == a.getDay())
                 .collect(Collectors.toList());
 
