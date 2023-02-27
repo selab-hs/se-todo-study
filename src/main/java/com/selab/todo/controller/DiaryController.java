@@ -4,7 +4,6 @@ import com.selab.todo.common.dto.PageDto;
 import com.selab.todo.common.dto.ResponseDto;
 import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
 import com.selab.todo.dto.request.diary.DiaryUpdateRequest;
-import com.selab.todo.dto.request.search.MonthSearchRequest;
 import com.selab.todo.dto.request.feel.FeelingUpdateRequest;
 import com.selab.todo.service.DiaryService;
 import com.selab.todo.service.FeelingService;

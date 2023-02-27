@@ -1,6 +1,5 @@
 package com.selab.todo.controller;
 
-import com.selab.todo.common.dto.PageDto;
 import com.selab.todo.dto.request.search.MonthSearchRequest;
 import com.selab.todo.dto.request.search.SearchRequest;
 import com.selab.todo.dto.request.search.YearSearchRequest;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

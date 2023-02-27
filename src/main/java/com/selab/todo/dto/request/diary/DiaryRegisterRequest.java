@@ -1,6 +1,5 @@
 package com.selab.todo.dto.request.diary;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

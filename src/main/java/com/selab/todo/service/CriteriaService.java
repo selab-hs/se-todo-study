@@ -1,5 +1,6 @@
 package com.selab.todo.service;
 
+import com.selab.todo.dto.request.diary.DiaryRegisterRequest;
 import com.selab.todo.dto.response.DiaryResponse;
 import com.selab.todo.entity.Diary;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,66 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CriteriaService {
 
-    private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
+    private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("diary");
+
+    @Transactional
+    public DiaryResponse register(DiaryRegisterRequest request){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+
+        Diary diary = new Diary(
+                request.getTitle(),
+                request.getContent(),
+                request.getFeel(),
+                Year.of(request.getYear()),
+                Month.of(request.getMonth()),
+                DayOfWeek.of(request.getDay())
+        );
+
+        entityManager.persist(diary);
+
+        return DiaryResponse.from(diary);
+    }
+
+    @Transactional
+    public DiaryResponse get(Long id){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Diary> criteriaQuery = criteriaBuilder.createQuery(Diary.class);
+        Root<Diary> root = criteriaQuery.from(Diary.class);
+
+        Predicate idEquals = criteriaBuilder.equal(root.get("id"), id);
+
+        criteriaQuery.select(root).where(idEquals);
+
+        Diary diary = entityManager.createQuery(criteriaQuery).getSingleResult();
+
+        return DiaryResponse.from(diary);
+    }
+
+    @Transactional
+    public Page<DiaryResponse> getAll(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Diary> criteriaQuery = criteriaBuilder.createQuery(Diary.class);
+        Root<Diary> root = criteriaQuery.from(Diary.class);
+
+        criteriaQuery.select(root);
+
+        List<Diary> result = entityManager.createQuery(criteriaQuery).getResultList();
+
+        List<DiaryResponse> mapping = new ArrayList<>();
+
+        result.stream()
+                .forEach(a->{
+                    mapping.add(DiaryResponse.from(a));
+                });
+
+        return makePage(mapping);
+    }
+
 
     @Transactional
     public Page<DiaryResponse> searchFeel(String feeling){

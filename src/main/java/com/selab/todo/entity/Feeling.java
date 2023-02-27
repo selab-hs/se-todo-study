@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "feeling")
 @Getter
 @Table(name = "feeling")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
