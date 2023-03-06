@@ -30,12 +30,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CriteriaService {
 
-    private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("diary");
+    private final EntityManagerFactory entityManagerFactory =
+            Persistence.createEntityManagerFactory("diary");
 
     @Transactional
     public DiaryResponse register(DiaryRegisterRequest request){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
+        EntityTransaction entityTransaction = entityManager.getTransaction();
 
         Diary diary = new Diary(
                 request.getTitle(),
@@ -46,7 +47,19 @@ public class CriteriaService {
                 DayOfWeek.of(request.getDay())
         );
 
-        entityManager.persist(diary);
+        try{
+            entityTransaction.begin();
+
+            entityManager.persist(diary);
+
+            entityTransaction.commit();
+        }catch (Exception e){
+            log.info("Criteria Error. {}", e);
+            entityTransaction.rollback();
+
+        }finally {
+            entityManager.close();
+        }
 
         return DiaryResponse.from(diary);
     }
